@@ -52,7 +52,9 @@ contract AssetToken is ERC20 {
     //////////////////////////////////////////////////////////////*/
     constructor(
         address thunderLoan,
-        IERC20 underlying,
+        IERC20 underlying, // e the token being deposited for flash loans
+        // q are the ERC20 stored in AssetToke.sol instead of thunderloan?
+        // they are stored in asset token
         string memory assetName,
         string memory assetSymbol
     )
@@ -65,27 +67,40 @@ contract AssetToken is ERC20 {
         s_exchangeRate = STARTING_EXCHANGE_RATE;
     }
 
+    // e only the Thundeerloan cotract can mint asst tokens
     function mint(address to, uint256 amount) external onlyThunderLoan {
         _mint(to, amount);
     }
+
 
     function burn(address account, uint256 amount) external onlyThunderLoan {
         _burn(account, amount);
     }
 
     function transferUnderlyingTo(address to, uint256 amount) external onlyThunderLoan {
+        // weird erc20!!!?
+        // q what happens if USDC blacklist thunderlon contract?
+        // q what happens of USDC blacklist the asset token contracts?
+        // @followup weir erc20s 
+        // @audit mudium the protocol will be frozen 
         i_underlying.safeTransfer(to, amount);
     }
 
+    // e responsible for updating the exchange rate of AssetTokens -> Underlying tokens
     function updateExchangeRate(uint256 fee) external onlyThunderLoan {
         // 1. Get the current exchange rate
         // 2. How big the fee is should be divided by the total supply
         // 3. So if the fee is 1e18, and the total supply is 2e18, the exchange rate be multiplied by 1.5
         // if the fee is 0.5 ETH, and the total supply is 4, the exchange rate should be multiplied by 1.125
-        // it should always go up, never down
+        // it should always go up, never down -> INVARIANT
+        // q k but why
         // newExchangeRate = oldExchangeRate * (totalSupply + fee) / totalSupply
         // newExchangeRate = 1 (4 + 0.5) / 4
         // newExchangeRate = 1.125
+
+        // q what if totalSupply is o?
+        // this breaks! is that an issue?
+        // @audit gas too much storage variable -> Stora as a memory variable
         uint256 newExchangeRate = s_exchangeRate * (totalSupply() + fee) / totalSupply();
 
         if (newExchangeRate <= s_exchangeRate) {

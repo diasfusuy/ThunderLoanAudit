@@ -8,16 +8,28 @@ import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/I
 contract OracleUpgradeable is Initializable {
     address private s_poolFactory;
 
+    // cant have constructors
+    // user -> proxy -> implementation
+    //          storage
+    //                  storage
+
     function __Oracle_init(address poolFactoryAddress) internal onlyInitializing {
         __Oracle_init_unchained(poolFactoryAddress);
     }
-
+    // @audit-info zero checks
     function __Oracle_init_unchained(address poolFactoryAddress) internal onlyInitializing {
         s_poolFactory = poolFactoryAddress;
     }
 
+    // e omg we are calling an external contract
+    // what if the price is manipulated?
+    // can i manipulate the price
+    // reentrancy?
+    // check the tests? @audit info you should use forked test for ths!
     function getPriceInWeth(address token) public view returns (uint256) {
         address swapPoolOfToken = IPoolFactory(s_poolFactory).getPool(token);
+        // q ignoring token decimals?
+        // ignoring 6 decimals vs 18 decimals?
         return ITSwapPool(swapPoolOfToken).getPriceOfOnePoolTokenInWeth();
     }
 

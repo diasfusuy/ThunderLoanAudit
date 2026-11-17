@@ -103,9 +103,13 @@ contract ThunderLoanTest is BaseTest {
         thunderLoan.flashloan(address(mockFlashLoanReceiver), tokenA, amountToBorrow, "");
         vm.stopPrank();
 
+        // The LP should be able to withdraw everything plus the fee they earned.
+        // Because deposit() inflated the exchange rate, the protocol owes more than it holds and redeem reverts.
         uint256 amountToRedeem = type(uint256).max;
         vm.startPrank(liquidityProvider);
+        vm.expectRevert();
         thunderLoan.redeem(tokenA, amountToRedeem);
+        vm.stopPrank();
     }
 
     function testOracleManupulation() public{

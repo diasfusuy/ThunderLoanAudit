@@ -1,3 +1,20 @@
+# Thunder Loan Security Review
+
+**Security review by Yusuf Sahin** · March 2026
+
+- 📄 Full report: [audit-data/report.pdf](audit-data/report.pdf) ([Markdown](audit-data/thunderLoan-audit-03-17-26.md))
+- 🔎 4 findings: **3 High, 1 Medium**
+- 🧪 Proof-of-concept tests in `test/unit/ThunderLoanTest.t.sol`: `testRedeem` (H-1), `testUpgradeBreaks` (H-2), `testUseDepositInsteadOfRepayToStealFunds` (H-3), `testOracleManupulation` (M-1)
+
+This is a practice audit of Thunder Loan, an intentionally vulnerable training codebase from the [Cyfrin Updraft](https://updraft.cyfrin.io) smart contract security course. The original protocol README follows below. The `report.md` file in the repo root is raw Aderyn static analysis output, not the audit report.
+
+```bash
+forge test
+forge test --match-test testUseDepositInsteadOfRepayToStealFunds -vv
+```
+
+---
+
 # Thunder Loan
 
 <br/>

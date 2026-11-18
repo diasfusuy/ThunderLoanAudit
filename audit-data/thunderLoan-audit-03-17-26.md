@@ -9,7 +9,7 @@ Prepared by: Yusuf Sahin
 Lead Auditor:
 - Yusuf Sahin
 
-Codebase: Thunder Loan, an intentionally vulnerable training protocol from the [Cyfrin Updraft](https://updraft.cyfrin.io) smart contract security course.
+Codebase: Thunder Loan, from [Cyfrin](https://www.cyfrin.io)'s open-source smart contract security curriculum.
 
 # Table of Contents
 - [Protocol Summary](#protocol-summary)

@@ -6,7 +6,7 @@
 - 🔎 4 findings: **3 High, 1 Medium**
 - 🧪 Proof-of-concept tests in `test/unit/ThunderLoanTest.t.sol`: `testRedeem` (H-1), `testUpgradeBreaks` (H-2), `testUseDepositInsteadOfRepayToStealFunds` (H-3), `testOracleManupulation` (M-1)
 
-This is a practice audit of Thunder Loan, an intentionally vulnerable training codebase from the [Cyfrin Updraft](https://updraft.cyfrin.io) smart contract security course. The original protocol README follows below. The `report.md` file in the repo root is raw Aderyn static analysis output, not the audit report.
+Codebase: Thunder Loan, from [Cyfrin](https://www.cyfrin.io)'s open-source smart contract security curriculum. The original protocol README follows below. The `report.md` file in the repo root is raw Aderyn static analysis output, not the audit report.
 
 ```bash
 forge test
